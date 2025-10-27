@@ -21,6 +21,7 @@ import HackathonDetail from './pages/HackathonDetail';
 import Notifications from './pages/Notifications';
 import Applications from './pages/Applications';
 import Bookmarks from './pages/Bookmarks';
+import AdminPanel from './pages/AdminPanel';
 import LoadingSpinner from './components/LoadingSpinner';
 
 function AppContent() {
@@ -193,13 +194,16 @@ function AppContent() {
           </> : <Navigate to="/login" />
         } />
         <Route path="/notifications" element={
-          user ? 
+          user ?
           <>
             <Navbar />
             <main className="container mx-auto px-4 py-8">
               <Notifications />
             </main>
           </> : <Navigate to="/login" />
+        } />
+        <Route path="/admin" element={
+          user ? <AdminPanel /> : <Navigate to="/login" />
         } />
       </Routes>
       <Toaster 

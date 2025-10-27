@@ -41,6 +41,8 @@ export default function Register() {
       newErrors.email = 'Email is required';
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
       newErrors.email = 'Please enter a valid email address';
+    } else if (!formData.email.toLowerCase().endsWith('@vitstudent.ac.in')) {
+      newErrors.email = 'Only @vitstudent.ac.in email addresses are allowed';
     }
     
     if (!formData.password) {
@@ -142,7 +144,7 @@ export default function Register() {
                   className={`appearance-none relative block w-full px-3 py-3 pl-10 border ${
                     errors.email ? 'border-red-300' : 'border-gray-300'
                   } placeholder-gray-500 text-gray-900 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
-                  placeholder="Enter your email address"
+                  placeholder="your.name@vitstudent.ac.in"
                 />
               </div>
               {errors.email && (

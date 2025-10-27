@@ -12,6 +12,7 @@ interface User {
   location?: string;
   experience?: string;
   github_username?: string;
+  is_admin?: boolean;
   project_count: number;
   skills_count: number;
   created_at: string;

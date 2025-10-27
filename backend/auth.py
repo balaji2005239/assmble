@@ -17,6 +17,9 @@ def validate_email(email):
     pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
     return re.match(pattern, email) is not None
 
+def validate_vit_email(email):
+    return email.lower().endswith('@vitstudent.ac.in')
+
 def validate_password(password):
     return len(password) >= 6
 
@@ -46,6 +49,10 @@ def register():
         if not validate_email(email):
             logger.error(f"Invalid email format: {email}")
             return jsonify({"error": "Invalid email format"}), 400
+
+        if not validate_vit_email(email):
+            logger.error(f"Email not from vitstudent.ac.in domain: {email}")
+            return jsonify({"error": "Only @vitstudent.ac.in email addresses are allowed"}), 400
         
         if not validate_password(password):
             logger.error("Password too short")
@@ -128,10 +135,14 @@ def login():
         user = session.query(User).filter(
             (User.username == username) | (User.email == username)
         ).first()
-        
+
         if not user:
             logger.error(f"User not found: {username}")
             return jsonify({"error": "Invalid credentials"}), 401
+
+        if not validate_vit_email(user.email):
+            logger.error(f"Login attempt with non-VIT email: {user.email}")
+            return jsonify({"error": "Only @vitstudent.ac.in email addresses are allowed"}), 401
         
         if not check_password_hash(user.password, password):
             logger.error(f"Invalid password for user: {username}")
@@ -163,7 +174,8 @@ def login():
                 "avatar_url": user.avatar_url,
                 "bio": user.bio,
                 "location": user.location,
-                "experience": user.experience
+                "experience": user.experience,
+                "is_admin": user.is_admin
             }
         }), 200
         
@@ -223,6 +235,7 @@ def get_profile():
             "open_to_opportunities": user.open_to_opportunities,
             "avatar_url": user.avatar_url,
             "is_active": user.is_active,
+            "is_admin": user.is_admin,
             "project_count": project_count,
             "skills_count": skills_count,
             "created_at": user.created_at.astimezone(IST).isoformat(),

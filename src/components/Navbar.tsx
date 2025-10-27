@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { User, LogOut, Bell, MessageCircle, Menu, X, Search, Home, Briefcase, Users, Calendar, Bookmark } from 'lucide-react';
+import { User, LogOut, Bell, MessageCircle, Menu, X, Search, Home, Briefcase, Users, Calendar, Bookmark, Shield } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import { api } from '../services/api';
 
@@ -182,6 +182,21 @@ export default function Navbar() {
                           <span>Profile</span>
                         </div>
                       </Link>
+                      {user.is_admin && (
+                        <>
+                          <hr className="my-1" />
+                          <Link
+                            to="/admin"
+                            className="block px-4 py-2 text-red-600 hover:bg-red-50 transition-colors"
+                            onClick={() => setIsMenuOpen(false)}
+                          >
+                            <div className="flex items-center space-x-2">
+                              <Shield size={16} />
+                              <span>Admin Panel</span>
+                            </div>
+                          </Link>
+                        </>
+                      )}
                       <hr className="my-1" />
                       <button
                         onClick={handleLogout}

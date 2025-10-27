@@ -102,6 +102,7 @@ class User(Base):
     open_to_opportunities = Column(Boolean, default=True)
     
     is_active = Column(Boolean, default=True)
+    is_admin = Column(Boolean, default=False)
     last_login = Column(DateTime, nullable=True)
     created_at = Column(DateTime, default=lambda: datetime.now(IST))
     updated_at = Column(DateTime, default=lambda: datetime.now(IST), onupdate=lambda: datetime.now(IST))
